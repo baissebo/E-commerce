@@ -5,7 +5,7 @@ class Category:
     def __init__(self, name: str, description: str, products: list):
         self.name = name
         self.description = description
-        self._products = products
+        self.__products = products
 
         Category.total_categories += 1
         Category.unique_products += 1
@@ -17,16 +17,17 @@ class Category:
         return self.description
 
     def get_products(self):
-        return self._products
+        return self.__products
 
     def add_product(self, product):
-        self._products.append(product)
+        self.__products.append(product)
 
     @property
     def formatted_products(self):
         formatted_products = []
-        for product in self._products:
-            formatted_products.append(f"{product.get_product_name()}, {product.get_product_price()} руб. Остаток: {product.get_product_quantity()} шт.")
+        for product in self.__products:
+            formatted_products.append(
+                f"{product.get_product_name()}, {product.get_product_price()} руб. Остаток: {product.get_product_quantity()} шт.")
         return formatted_products
 
 
@@ -62,11 +63,17 @@ class Product:
     def get_product_quantity(self):
         return self.quantity
 
-    @staticmethod
-    def create_product(name, description, price, quantity, products):
+    @classmethod
+    def create_product(cls, product_data, products):
+        name = product_data['name']
+        description = product_data['description']
+        price = product_data['price']
+        quantity = product_data['quantity']
+
         for product in products:
             if product.get_product_name() == name:
                 product.price = max(product.price, price)
                 product.quantity += quantity
                 return product
+
         return Product(name, description, price, quantity)
