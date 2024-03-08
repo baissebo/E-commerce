@@ -76,4 +76,4 @@ class Product:
                 product.quantity += quantity
                 return product
 
-        return Product(name, description, price, quantity)
+        return cls(name, description, price, quantity)
