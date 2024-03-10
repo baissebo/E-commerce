@@ -1,3 +1,21 @@
+class CategoryIterator:
+    def __init__(self, category):
+        self.category = category
+        self.products = category.get_products()
+        self.index = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index < len(self.products):
+            current_product = self.products[self.index]
+            self.index += 1
+            return current_product
+        else:
+            raise StopIteration
+
+
 class Category:
     total_categories = 0
     unique_products = 0
@@ -29,6 +47,16 @@ class Category:
             formatted_products.append(
                 f"{product.get_product_name()}, {product.get_product_price()} руб. Остаток: {product.get_product_quantity()} шт.")
         return formatted_products
+
+    def __str__(self):
+        num_products = sum(product.get_product_quantity() for product in self.__products)
+        return f"{self.name}, количество продуктов: {num_products} шт."
+
+    def __len__(self):
+        return sum(product.get_product_quantity() for product in self.__products)
+
+    def __iter__(self):
+        return CategoryIterator(self)
 
 
 class Product:
@@ -77,3 +105,13 @@ class Product:
                 return product
 
         return cls(name, description, price, quantity)
+
+    def __add__(self, other):
+        total = (self.price * self.quantity) + (other.price * other.quantity)
+        return total
+
+    def __str__(self):
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
+    def __len__(self):
+        return self.quantity
