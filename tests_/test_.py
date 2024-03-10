@@ -43,7 +43,7 @@ def product():
 def test_category_init(category):
     assert category.name == 'Телевизоры'
     assert category.description == 'Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником'
-    assert len(category.products) == 1
+    assert len(category.get_products()) == 1
     assert Category.total_categories == 1
     assert Category.unique_products == 1
 
@@ -76,7 +76,7 @@ def test_product_description(product):
 
 
 def test_product_price(product):
-    assert product.get_product_price() == 123000.0
+    assert product._price == 123000.0
 
 
 def test_product_quantity(product):
