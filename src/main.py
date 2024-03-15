@@ -108,6 +108,9 @@ class Product:
         return cls(name, description, price, quantity)
 
     def __add__(self, other):
+        if type(self) != type(other):
+            raise TypeError
+
         total = (self.price * self.quantity) + (other.price * other.quantity)
         return total
 
@@ -143,4 +146,3 @@ class LawnGrass(Product):
 
     def __str__(self):
         return f"{self.name}, {self.description}, Период прорастания: {self.growth_period}, Цвет: {self.color}, Цена: {self.price} руб. Остаток: {self.quantity} шт."
-
