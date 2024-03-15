@@ -60,11 +60,12 @@ class Category:
 
 
 class Product:
-    def __init__(self, name: str, description: str, price: float, quantity: int):
+    def __init__(self, name: str, description: str, price: float, quantity: int, color: str):
         self.name = name
         self.description = description
         self._price = price
         self.quantity = quantity
+        self.color = color
 
     @property
     def price(self):
@@ -115,3 +116,31 @@ class Product:
 
     def __len__(self):
         return self.quantity
+
+
+class Smartphone(Product):
+    """ Класс наследник Product """
+
+    def __init__(self, name: str, description: str, price: float, quantity: int, performance: float, model: str,
+                 storage: int, color: str):
+        super().__init__(name, description, price, quantity, color)
+        self.performance = performance
+        self.model = model
+        self.storage = storage
+
+    def __str__(self):
+        return f"{self.name}, {self.model}, {self.description}, Производительность: {self.performance} ГГц, Цвет: {self.color}, Цена: {self.price} руб. Остаток: {self.quantity} шт."
+
+
+class LawnGrass(Product):
+    """ Класс наследник Product """
+
+    def __init__(self, name: str, description: str, price: float, quantity: int, country: str, growth_period: str,
+                 color: str):
+        super().__init__(name, description, price, quantity, color)
+        self.country = country
+        self.growth_period = growth_period
+
+    def __str__(self):
+        return f"{self.name}, {self.description}, Период прорастания: {self.growth_period}, Цвет: {self.color}, Цена: {self.price} руб. Остаток: {self.quantity} шт."
+
