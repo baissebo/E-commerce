@@ -38,6 +38,9 @@ class Category:
         return self.__products
 
     def add_product(self, product):
+        if not isinstance(product, Product):
+            raise TypeError
+
         self.__products.append(product)
 
     @property
@@ -45,7 +48,8 @@ class Category:
         formatted_products = []
         for product in self.__products:
             formatted_products.append(
-                f"{product.get_product_name()}, {product.get_product_price()} руб. Остаток: {product.get_product_quantity()} шт.")
+                f"{product.get_product_name()}, {product.get_product_price()} руб. "
+                f"Остаток: {product.get_product_quantity()} шт.")
         return formatted_products
 
     def __str__(self):
@@ -132,7 +136,8 @@ class Smartphone(Product):
         self.storage = storage
 
     def __str__(self):
-        return f"{self.name}, {self.model}, {self.description}, Производительность: {self.performance} ГГц, Цвет: {self.color}, Цена: {self.price} руб. Остаток: {self.quantity} шт."
+        return (f"{self.name}, {self.model}, {self.description}, Производительность: {self.performance} ГГц, "
+                f"Цвет: {self.color}, Цена: {self.price} руб. Остаток: {self.quantity} шт.")
 
 
 class LawnGrass(Product):
@@ -145,4 +150,5 @@ class LawnGrass(Product):
         self.growth_period = growth_period
 
     def __str__(self):
-        return f"{self.name}, {self.description}, Период прорастания: {self.growth_period}, Цвет: {self.color}, Цена: {self.price} руб. Остаток: {self.quantity} шт."
+        return (f"{self.name}, {self.description}, Период прорастания: {self.growth_period}, Цвет: {self.color}, "
+                f"Цена: {self.price} руб. Остаток: {self.quantity} шт.")
