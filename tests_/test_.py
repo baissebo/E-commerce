@@ -1,4 +1,4 @@
-from src.main import Category, Product
+from src.main import Category, Product, Smartphone, LawnGrass
 import pytest
 from src.utils import load_data
 
@@ -42,7 +42,8 @@ def product():
 
 def test_category_init(category):
     assert category.name == 'Телевизоры'
-    assert category.description == 'Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником'
+    assert category.description == ('Современный телевизор, который позволяет наслаждаться просмотром, '
+                                    'станет вашим другом и помощником')
     assert len(category.get_products()) == 1
     assert Category.total_categories == 1
     assert Category.unique_products == 1
@@ -53,7 +54,8 @@ def test_get_name(category):
 
 
 def test_get_description(category):
-    assert category.get_description() == 'Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником'
+    assert category.get_description() == ('Современный телевизор, который позволяет наслаждаться просмотром, '
+                                          'станет вашим другом и помощником')
 
 
 def test_get_products(category):
@@ -81,3 +83,34 @@ def test_product_price(product):
 
 def test_product_quantity(product):
     assert product.get_product_quantity() == 7
+
+
+@pytest.mark.parametrize("name, description, price, quantity, performance, model, storage, color", [
+    ("iPhone 12", "iPhone Apple", 999.99, 10, 3.0, "12 Pro Max", 256, "Pacific Blue"),
+    ("Samsung Galaxy S21", "Samsung", 899.99, 5, 2.8, "S21 Ultra", 512, "Phantom Black"),
+])
+def test_smartphone_init(name, description, price, quantity, performance, model, storage, color):
+    smartphone = Smartphone(name, description, price, quantity, performance, model, storage, color)
+    assert smartphone.name == name
+    assert smartphone.description == description
+    assert smartphone.price == price
+    assert smartphone.quantity == quantity
+    assert smartphone.performance == performance
+    assert smartphone.model == model
+    assert smartphone.storage == storage
+    assert smartphone.color == color
+
+
+@pytest.mark.parametrize("name, description, price, quantity, country, growth_period, color", [
+    ("Green Grass", "Healthy and lush green grass", 9.99, 100, "USA", "Spring/Summer", "Green"),
+    ("Fresh Lawn", "High-quality beautiful lawn", 7.99, 50, "UK", "Summer", "Blue"),
+])
+def test_lawn_grass_init(name, description, price, quantity, country, growth_period, color):
+    lawn_grass = LawnGrass(name, description, price, quantity, country, growth_period, color)
+    assert lawn_grass.name == name
+    assert lawn_grass.description == description
+    assert lawn_grass.price == price
+    assert lawn_grass.quantity == quantity
+    assert lawn_grass.country == country
+    assert lawn_grass.growth_period == growth_period
+    assert lawn_grass.color == color
