@@ -1,4 +1,7 @@
-class Product:
+from abc import ABC, abstractmethod
+
+
+class Product(ABC):
     def __init__(self, name: str, description: str, price: float, quantity: int):
         self.name = name
         self.description = description
@@ -29,6 +32,10 @@ class Product:
 
     def get_product_quantity(self):
         return self.quantity
+
+    @abstractmethod
+    def get_product_info(self):
+        pass
 
     @classmethod
     def create_product(cls, product_data, products):
@@ -69,9 +76,9 @@ class Smartphone(Product):
         self.storage = storage
         self.color = color
 
-    def __str__(self):
-        return (f"{self.name}, {self.model}, {self.description}, Производительность: {self.performance} ГГц, "
-                f"Цвет: {self.color}, Цена: {self.price} руб. Остаток: {self.quantity} шт.")
+    def get_product_info(self):
+        return f"{self.name}, {self.model}, {self.description}, Производительность: {self.performance} ГГц, " \
+               f"Цвет: {self.color}, Цена: {self.price} руб. Остаток: {self.quantity} шт."
 
 
 class LawnGrass(Product):
@@ -83,6 +90,6 @@ class LawnGrass(Product):
         self.growth_period = growth_period
         self.color = color
 
-    def __str__(self):
-        return (f"{self.name}, {self.description}, Период прорастания: {self.growth_period}, Цвет: {self.color}, "
-                f"Цена: {self.price} руб. Остаток: {self.quantity} шт.")
+    def get_product_info(self):
+        return f"{self.name}, {self.description}, Период прорастания: {self.growth_period}, Цвет: {self.color}, " \
+               f"Цена: {self.price} руб. Остаток: {self.quantity} шт."
