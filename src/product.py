@@ -1,7 +1,15 @@
 from abc import ABC, abstractmethod
 
 
-class Product(ABC):
+class CreationInfoMixin:
+    def __repr__(self):
+        class_name = self.__class__.__name__
+        attributes = ', '.join([f'{attr}={getattr(self, attr)}' for attr in self.__dict__])
+        return f"{class_name}({attributes})"
+
+
+class Product(CreationInfoMixin, ABC):
+
     def __init__(self, name: str, description: str, price: float, quantity: int):
         self.name = name
         self.description = description
