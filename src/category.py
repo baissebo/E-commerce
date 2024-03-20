@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 
 
 class OrderItem(ABC):
+    @abstractmethod
     def __init__(self, product, quantity):
         self.product = product
         self.quantity = quantity

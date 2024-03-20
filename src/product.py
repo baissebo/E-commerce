@@ -1,6 +1,31 @@
 from abc import ABC, abstractmethod
 
 
+class BaseProduct(ABC):
+    @abstractmethod
+    def __init__(self, name: str, description: str, price: float, quantity: int):
+        self.name = name
+        self.description = description
+        self._price = price
+        self.quantity = quantity
+
+    @abstractmethod
+    def get_product_name(self):
+        pass
+
+    @abstractmethod
+    def get_product_description(self):
+        pass
+
+    @abstractmethod
+    def get_product_quantity(self):
+        pass
+
+    @abstractmethod
+    def get_product_info(self):
+        pass
+
+
 class CreationInfoMixin:
     def __repr__(self):
         class_name = self.__class__.__name__
@@ -8,7 +33,7 @@ class CreationInfoMixin:
         return f"{class_name}({attributes})"
 
 
-class Product(CreationInfoMixin, ABC):
+class Product(CreationInfoMixin, BaseProduct):
 
     def __init__(self, name: str, description: str, price: float, quantity: int):
         self.name = name
@@ -41,7 +66,6 @@ class Product(CreationInfoMixin, ABC):
     def get_product_quantity(self):
         return self.quantity
 
-    @abstractmethod
     def get_product_info(self):
         pass
 
