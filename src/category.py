@@ -1,5 +1,31 @@
 from src.product import Product
 
+from abc import ABC, abstractmethod
+
+
+class OrderItem(ABC):
+    def __init__(self, product, quantity):
+        self.product = product
+        self.quantity = quantity
+
+    @abstractmethod
+    def get_total_cost(self):
+        pass
+
+
+class Order(OrderItem):
+    def __init__(self, product, quantity):
+        super().__init__(product, quantity)
+
+    def get_product(self):
+        return self.product
+
+    def get_quantity(self):
+        return self.quantity
+
+    def get_total_cost(self):
+        return self.product.price * self.quantity
+
 
 class CategoryIterator:
     def __init__(self, category):
@@ -19,17 +45,22 @@ class CategoryIterator:
             raise StopIteration
 
 
-class Category:
+class Category(OrderItem):
     total_categories = 0
     unique_products = 0
 
-    def __init__(self, name: str, description: str, products: list):
+    def __init__(self, name: str, description: str, products: list, quantity):
         self.name = name
         self.description = description
         self.__products = products
+        self.quantity = quantity
+        super().__init__(products, quantity)
 
         Category.total_categories += 1
         Category.unique_products += 1
+
+    def get_total_cost(self):
+        return self.product.price * self.quantity
 
     def get_name(self):
         return self.name
