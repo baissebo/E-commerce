@@ -32,9 +32,8 @@ class BaseProduct(ABC):
 
 
 class CreationInfoMixin:
-    def __init__(self, name: str, description: str, price: float, quantity: int):
-        super().__init__(name, description, price, quantity)
-        print(self)
+    def __init__(self):
+        print(repr(self))
 
     def __repr__(self):
         class_name = self.__class__.__name__
@@ -49,6 +48,7 @@ class Product(CreationInfoMixin, BaseProduct):
         self.description = description
         self._price = price
         self.quantity = quantity
+        super().__init__()
 
     @property
     def price(self):
@@ -104,6 +104,7 @@ class Product(CreationInfoMixin, BaseProduct):
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
     def __len__(self):
+
         return self.quantity
 
 
@@ -134,3 +135,4 @@ class LawnGrass(Product):
     def get_product_info(self):
         return f"{self.name}, {self.description}, Период прорастания: {self.growth_period}, Цвет: {self.color}, " \
                f"Цена: {self.price} руб. Остаток: {self.quantity} шт."
+

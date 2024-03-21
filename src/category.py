@@ -1,4 +1,4 @@
-from src.product import Product
+from src.product import Product, CreationInfoMixin
 
 from abc import ABC, abstractmethod
 
@@ -46,7 +46,7 @@ class CategoryIterator:
             raise StopIteration
 
 
-class Category(OrderItem):
+class Category(CreationInfoMixin, OrderItem):
     total_categories = 0
     unique_products = 0
 
@@ -56,7 +56,8 @@ class Category(OrderItem):
         self.__products = products
 
         Category.total_categories += 1
-        Category.unique_products += 1
+        Category.unique_products += len(products)
+        super().__init__()
 
     def get_total_cost(self):
         return self.product.price * self.quantity
@@ -94,3 +95,4 @@ class Category(OrderItem):
 
     def __iter__(self):
         return CategoryIterator(self)
+
