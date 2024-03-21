@@ -25,8 +25,17 @@ class BaseProduct(ABC):
     def get_product_info(self):
         pass
 
+    @classmethod
+    @abstractmethod
+    def create_product(cls, product_data, products):
+        pass
+
 
 class CreationInfoMixin:
+    def __init__(self, name: str, description: str, price: float, quantity: int):
+        super().__init__(name, description, price, quantity)
+        print(self)
+
     def __repr__(self):
         class_name = self.__class__.__name__
         attributes = ', '.join([f'{attr}={getattr(self, attr)}' for attr in self.__dict__])
