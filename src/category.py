@@ -3,6 +3,13 @@ from src.product import Product, CreationInfoMixin
 from abc import ABC, abstractmethod
 
 
+class ZeroQuantityException(Exception):
+
+    def __init__(self, message="Товар с нулевым количеством не может быть добавлен."):
+        self.message = message
+        super().__init__(self.message)
+
+
 class OrderItem(ABC):
     @abstractmethod
     def __init__(self, product, quantity):
@@ -17,6 +24,7 @@ class OrderItem(ABC):
 class Order(OrderItem):
     def __init__(self, product, quantity):
         super().__init__(product, quantity)
+        self.items = []
 
     def get_product(self):
         return self.product
@@ -26,6 +34,18 @@ class Order(OrderItem):
 
     def get_total_cost(self):
         return self.product.price * self.quantity
+
+    def add_item(self, item):
+        try:
+            if item.get_quantity() == 0:
+                raise ZeroQuantityException()
+        except ZeroQuantityException as e:
+            print(e)
+        else:
+            self.items.append(item)
+            print("Товар успешно добавлен в заказ")
+        finally:
+            print("Обработка добавления товара завершена")
 
 
 class CategoryIterator:
@@ -80,13 +100,16 @@ class Category(CreationInfoMixin, OrderItem):
         return self.__products
 
     def add_product(self, product):
-        if not isinstance(product, Product):
-            raise TypeError
-
-        if product.get_product_quantity() == 0:
-            raise ValueError("Товар с нулевым количеством не может быть добавлен.")
-
-        self.__products.append(product)
+        try:
+            if product.get_product_quantity() == 0:
+                raise ZeroQuantityException()
+        except ZeroQuantityException as e:
+            print(e)
+        else:
+            self.__products.append(product)
+            print("Товар успешно добавлен в категорию")
+        finally:
+            print("Обработка добавления товара завершена")
 
     @property
     def formatted_products(self):
