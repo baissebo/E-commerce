@@ -59,6 +59,14 @@ class Category(CreationInfoMixin, OrderItem):
         Category.unique_products += len(products)
         super().__init__()
 
+    def calc_average_price(self):
+        try:
+            total_price = sum(product.price for product in self.__products)
+            average_price = total_price / len(self.__products)
+        except ZeroDivisionError:
+            average_price = 0
+        return average_price
+
     def get_total_cost(self):
         return self.product.price * self.quantity
 
