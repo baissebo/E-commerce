@@ -75,6 +75,9 @@ class Category(CreationInfoMixin, OrderItem):
         if not isinstance(product, Product):
             raise TypeError
 
+        if product.get_product_quantity() == 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен.")
+
         self.__products.append(product)
 
     @property
@@ -95,4 +98,3 @@ class Category(CreationInfoMixin, OrderItem):
 
     def __iter__(self):
         return CategoryIterator(self)
-
