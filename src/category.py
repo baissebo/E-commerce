@@ -4,6 +4,9 @@ from abc import ABC, abstractmethod
 
 
 class ZeroQuantityException(Exception):
+    """
+      Исключение, которое возникает при попытке добавить товар с нулевым количеством.
+      """
 
     def __init__(self, message="Товар с нулевым количеством не может быть добавлен."):
         self.message = message
@@ -11,6 +14,10 @@ class ZeroQuantityException(Exception):
 
 
 class OrderItem(ABC):
+    """
+     Абстрактный базовый класс для элементов заказа.
+     """
+
     @abstractmethod
     def __init__(self, product, quantity):
         self.product = product
@@ -22,6 +29,10 @@ class OrderItem(ABC):
 
 
 class Order(OrderItem):
+    """
+      Класс, представляющий заказ.
+      """
+
     def __init__(self, product, quantity):
         super().__init__(product, quantity)
         self.items = []
@@ -36,6 +47,11 @@ class Order(OrderItem):
         return self.product.price * self.quantity
 
     def add_item(self, item):
+        """
+        Добавление товара в заказ
+        :param item: объект товара для добавления
+        """
+
         try:
             if item.get_quantity() == 0:
                 raise ZeroQuantityException()
@@ -49,6 +65,10 @@ class Order(OrderItem):
 
 
 class CategoryIterator:
+    """
+       Итератор для категории товаров.
+       """
+
     def __init__(self, category):
         self.category = category
         self.products = category.get_products()
@@ -67,6 +87,10 @@ class CategoryIterator:
 
 
 class Category(CreationInfoMixin, OrderItem):
+    """
+        Класс, представляющий категорию товаров.
+        """
+
     total_categories = 0
     unique_products = 0
 
@@ -80,6 +104,10 @@ class Category(CreationInfoMixin, OrderItem):
         super().__init__()
 
     def calc_average_price(self):
+        """
+            Вычисление средней цены товаров в категории.
+            """
+
         try:
             total_price = sum(product.price for product in self.__products)
             average_price = total_price / len(self.__products)
@@ -100,6 +128,11 @@ class Category(CreationInfoMixin, OrderItem):
         return self.__products
 
     def add_product(self, product):
+        """
+        Добавление товара в категорию
+        :param product: объект товара для добавления
+        """
+
         try:
             if product.get_product_quantity() == 0:
                 raise ZeroQuantityException()
@@ -113,6 +146,10 @@ class Category(CreationInfoMixin, OrderItem):
 
     @property
     def formatted_products(self):
+        """
+           Получение отформатированной информации о товарах в категории.
+           """
+
         formatted_products = []
         for product in self.__products:
             formatted_products.append(

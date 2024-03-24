@@ -2,6 +2,10 @@ from abc import ABC, abstractmethod
 
 
 class BaseProduct(ABC):
+    """
+        Абстрактный базовый класс для товара.
+        """
+
     @abstractmethod
     def __init__(self, name: str, description: str, price: float, quantity: int):
         self.name = name
@@ -32,6 +36,10 @@ class BaseProduct(ABC):
 
 
 class CreationInfoMixin:
+    """
+       Миксин для вывода информации о создании объекта.
+       """
+
     def __init__(self):
         print(repr(self))
 
@@ -42,6 +50,9 @@ class CreationInfoMixin:
 
 
 class Product(CreationInfoMixin, BaseProduct):
+    """
+     Класс, представляющий товар.
+     """
 
     def __init__(self, name: str, description: str, price: float, quantity: int):
         self.name = name
@@ -56,6 +67,12 @@ class Product(CreationInfoMixin, BaseProduct):
 
     @price.setter
     def price(self, new_price):
+        """
+                Установка новой цены товара
+
+                :param new_price: новая цена товара
+                """
+
         if new_price <= 0:
             print("Введена некорректная цена.")
             return
@@ -80,6 +97,13 @@ class Product(CreationInfoMixin, BaseProduct):
 
     @classmethod
     def create_product(cls, product_data, products):
+        """
+               Создание товара
+
+               :param product_data: данные для создания товара
+               :param products: список товаров
+               """
+
         name = product_data['name']
         description = product_data['description']
         price = product_data['price']
@@ -94,8 +118,16 @@ class Product(CreationInfoMixin, BaseProduct):
         return cls(name, description, price, quantity)
 
     def __add__(self, other):
+        """
+                Перегрузка оператора сложения для товаров
+
+                :param other: другой товар для сложения
+                :return: общая стоимость двух товаров
+                :raises TypeError: если тип товара для сложения отличается
+                """
+
         if type(self) != type(other):
-            raise TypeError
+            raise TypeError("Нельзя складывать товары разных типов.")
 
         total = (self.price * self.quantity) + (other.price * other.quantity)
         return total
@@ -135,4 +167,3 @@ class LawnGrass(Product):
     def get_product_info(self):
         return f"{self.name}, {self.description}, Период прорастания: {self.growth_period}, Цвет: {self.color}, " \
                f"Цена: {self.price} руб. Остаток: {self.quantity} шт."
-
